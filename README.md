@@ -58,7 +58,27 @@ then, test the model under probabilistic case:
 <pre><code>python run_transformers.py --mode attack --adv_type random --random_attack_file ${data_dir}/MRPC/mrpc.tsv --target_model bert --model_name_or_path bert-base-uncased --do_lower_case --data_dir ${data_dir}/MRPC --data_sign MRPC 
 </code></pre>
 
-Note that our framework is flexible. If you want to test new models, you can simply add a new class in <code> attack_agent.py </code>. 
+Note that our framework is flexible. If you want to test new models, you can simply add a new class in <code> attack_agent.py </code> like what we did ( See <code> attack_agent.py </code> for detials, the new class mainly tells attack algorithms how to construct and forward a new instance):
+<pre><code>class infersent_enc(object):
+    def __init__(self, infersent, config):
+        self.infersent = infersent
+        self.config = config
+
+    def make_instance(self, text_a, text_b, label, label_map):
+        sent1s = [' '.join(text_a)]
+        if isinstance(text_b, list):
+            sent2s = [' '.join(text_b)]
+        else:
+            sent2s = [text_b]
+        return [sent1s, sent2s, [label]]
+
+    def model_forward(self, model, batch):
+        sent1s, sent2s, label_ids = [list(item) for item in batch]
+        sent1_tensor = self.infersent.encode(sent1s, tokenize=True)
+        sent2_tensor = self.infersent.encode(sent2s, tokenize=True)
+        ...
+        return logits
+</code></pre>
 
 
 ### Model layer evaluations
