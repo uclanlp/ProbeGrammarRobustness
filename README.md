@@ -24,10 +24,8 @@ Remember to change the file path in line 13 and 141 of <code> utils/statistic_al
 ### Download pre-trained models
 For experiments regarding Infersent, you need to download fastText embeddings and the corresponding pre-trained Infersent model.
 
-<pre><code>
-  curl -Lo crawl-300d-2M.vec.zip https://s3-us-west-1.amazonaws.com/fasttext-vectors/crawl-300d-2M.vec.zip
-  curl -Lo examples/infersent2.pkl https://dl.fbaipublicfiles.com/senteval/infersent/infersent2.pkl
-
+<pre><code>curl -Lo crawl-300d-2M.vec.zip https://s3-us-west-1.amazonaws.com/fasttext-vectors/crawl-300d-2M.vec.zip
+curl -Lo examples/infersent2.pkl https://dl.fbaipublicfiles.com/senteval/infersent/infersent2.pkl
 </code></pre>
 
 ## Usage
