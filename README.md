@@ -48,15 +48,15 @@ then, run the attack algorithms, <code>--adv_type</code> can be <code>greedy</co
 <pre><code>python run_transformers.py --mode attack  --adv_type greedy --target_model bert --model_name_or_path bert-base-uncased --do_lower_case --data_dir ${data_dir}/MRPC --data_sign MRPC
 </code></pre>
 
-To inject grammatical errors based on [berkeleyparser](https://github.com/slavpetrov/berkeleyparser) (the probabilistic case in our paper), you need to first obtain syntactic parse tree for each sentence in the dataset. Then run:
+To inject grammatical errors based on [berkeleyparser](https://github.com/slavpetrov/berkeleyparser) (the probabilistic case in our paper), you need to first obtain the syntactic parse tree for each sentence in the dataset. Then run:
 <pre><code>python generate_error_sent_all.py csv --input_tsv ${data_dir}/MRPC/dev.tsv --parsed_sent1 ${data_dir}/MRPC/parsed_sent1 --parsed_sent2 ${data_dir}/MRPC/parsed_sent2 --output_tsv ${data_dir}/MRPC/mrpc.tsv --rate 0.15
 </code></pre>
 
-then, test the model under probabilistic case:
+then, test the model under the probabilistic case:
 <pre><code>python run_transformers.py --mode attack --adv_type random --random_attack_file ${data_dir}/MRPC/mrpc.tsv --target_model bert --model_name_or_path bert-base-uncased --do_lower_case --data_dir ${data_dir}/MRPC --data_sign MRPC 
 </code></pre>
 
-Note that our framework is flexible. If you want to test new models, you can simply add a new class in <code> attack_agent.py </code> like what we did ( See <code> attack_agent.py </code> for detials, the new class mainly tells attack algorithms how to construct and forward a new instance):
+Note that our framework is flexible. If you want to test new models, you can simply add a new class in <code> attack_agent.py </code> like what we did ( See <code> attack_agent.py </code> for detials, the new class mainly tells attack algorithms how to construct and forward a new instance with the tested model):
 <pre><code>class infersent_enc(object):
     def __init__(self, infersent, config):
         self.infersent = infersent
