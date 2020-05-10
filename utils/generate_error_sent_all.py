@@ -341,5 +341,3 @@ def run(arguments):
 if __name__ == '__main__':
     if sys.argv[1] == 'csv':
         run(sys.argv[2:])
-    if sys.argv[1] == 'json':
-        main(sys.argv[2:])
