@@ -1,8 +1,7 @@
 export CUDA_VISIBLE_DEVICES=3
 layer=1
-for layer in 7 8;do
+for layer in 0 1 2 3 4 5 6 7 8 9 10 11 12;do
     python trans_sent_acc.py --data_file prep2.txt  --type prep --layer ${layer} --transformer-model roberta-base
-    python trans_sent_acc.py --data_file prep2.txt  --type prep --layer ${layer} --transformer-model bert-base-uncased
     python trans_sent_acc.py --data_file art2.txt  --type art --layer ${layer} --transformer-model roberta-base
     python trans_sent_acc.py --data_file vt2.txt  --type vt --layer ${layer} --transformer-model roberta-base
     python trans_sent_acc.py --data_file sva2.txt  --type sva --layer ${layer} --transformer-model roberta-base
