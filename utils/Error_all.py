@@ -5,7 +5,7 @@ import inflection
 from collections import defaultdict
 from pattern3.en import tenses, conjugate, lexeme
 from nltk.corpus import wordnet
-from statistic_all import stat, dis
+from utils.statistic_all import stat, dis
 
 class Errors(object):
     def __init__(self, preps, dets, trans):
