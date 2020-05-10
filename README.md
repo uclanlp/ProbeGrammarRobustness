@@ -89,7 +89,7 @@ Navigate to the <code>probing</code> directory:
 Run:
 <pre><code>bash run_mlm_dis.sh</code></pre>
 
-You may also collect your own data by navigating to the <code>examples</code> directory and run:
+You may also collect your own data by navigating to the <code>examples</code> directory and running:
 <pre><code>python collect_data.py --type *error_type*</code></pre>
 
 where \*error_type\* can be Prep, ArtOrDet, Wci, Trans, Nn, SVA, Vform.
