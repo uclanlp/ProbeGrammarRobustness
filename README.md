@@ -81,6 +81,18 @@ Note that our framework is flexible. If you want to test new models, you can sim
 
 ### Model layer evaluations
 ### BERT masked language model evaluations
+We provide some examples for a quick check.
+
+Navigate to the <code>probing</code> directory:
+<pre><code>cd probing</code></pre>
+
+Run:
+<pre><code>bash run_mlm_dis.sh</code></pre>
+
+You may also collect your own data by navigating to the <code>examples</code> directory and running:
+<pre><code>python collect_data.py --type *error_type*</code></pre>
+
+where \*error_type\* can be Prep, ArtOrDet, Wci, Trans, Nn, SVA, Vform.
 
 ## Acknowledgement
 Our framework is developed based on [PyTorch](https://github.com/pytorch/pytorch) implementations of BERT and RoBERTa from [PyTorch-Transformers](https://github.com/huggingface/transformers), Infersent from [SentEval](https://github.com/facebookresearch/SentEval), and ELMo from [AllenNLP](https://github.com/allenai/allennlp) and [Jiant](https://github.com/nyu-mll/jiant).
