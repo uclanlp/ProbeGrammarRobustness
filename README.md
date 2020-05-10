@@ -23,13 +23,62 @@ Remember to change the file path in line 13 and 141 of <code> utils/statistic_al
 
 ### Download pre-trained models
 For experiments regarding Infersent, you need to download fastText embeddings and the corresponding pre-trained Infersent model.
-<pre><code>
-curl -Lo crawl-300d-2M.vec.zip https://s3-us-west-1.amazonaws.com/fasttext-vectors/crawl-300d-2M.vec.zip
+
+<pre><code>curl -Lo crawl-300d-2M.vec.zip https://s3-us-west-1.amazonaws.com/fasttext-vectors/crawl-300d-2M.vec.zip
 curl -Lo examples/infersent2.pkl https://dl.fbaipublicfiles.com/senteval/infersent/infersent2.pkl
 </code></pre>
 
 ## Usage
 ### Downstream task evaluations
+The framework in this repo allows evaluating BERT, RoBERTa, and Infersent on MRPC, MNLI, QNLI, and SST-2. We will provide an example of evaluating <code>bert-base-uncased</code> on MRPC dataset.
+
+The follows can be done with
+<code> bash run_trans_case.sh </code>. But let's elaborate it step by step. The script for Infersent is <code> run_infer_case.sh </code>.
+
+First train or fine-tune models on clean data (<code>${data_dir}</code> indicates where you store clean data):
+
+<pre><code>python run_transformers.py --mode fine-tune --target_model bert --model_name_or_path bert-base-uncased --do_lower_case --data_dir ${data_dir}/MRPC --data_sign MRPC
+</code></pre>
+
+To inject grammatical errors using adversarial attack algorithms, you need to assign importance scores to each token (not necessary for genetic algorithm):
+<pre><code>python run_transformers.py --mode score --target_model bert --model_name_or_path bert-base-uncased --do_lower_case --data_dir ${data_dir}/MRPC --data_sign MRPC
+</code></pre>
+
+then, run the attack algorithms, <code>--adv_type</code> can be <code>greedy</code>, <code>beam_search</code> or <code>genetic</code>:
+<pre><code>python run_transformers.py --mode attack  --adv_type greedy --target_model bert --model_name_or_path bert-base-uncased --do_lower_case --data_dir ${data_dir}/MRPC --data_sign MRPC
+</code></pre>
+
+To inject grammatical errors based on [berkeleyparser](https://github.com/slavpetrov/berkeleyparser) (the probabilistic case in our paper), you need to first obtain the syntactic parse tree for each sentence in the dataset. Then run:
+<pre><code>python generate_error_sent_all.py csv --input_tsv ${data_dir}/MRPC/dev.tsv --parsed_sent1 ${data_dir}/MRPC/parsed_sent1 --parsed_sent2 ${data_dir}/MRPC/parsed_sent2 --output_tsv ${data_dir}/MRPC/mrpc.tsv --rate 0.15
+</code></pre>
+
+then, test the model under the probabilistic case:
+<pre><code>python run_transformers.py --mode attack --adv_type random --random_attack_file ${data_dir}/MRPC/mrpc.tsv --target_model bert --model_name_or_path bert-base-uncased --do_lower_case --data_dir ${data_dir}/MRPC --data_sign MRPC 
+</code></pre>
+
+Note that our framework is flexible. If you want to test new models, you can simply add a new class in <code> attack_agent.py </code> like what we did ( See <code> attack_agent.py </code> for detials, the new class mainly tells attack algorithms how to construct and forward a new instance with the tested model):
+<pre><code>class infersent_enc(object):
+    def __init__(self, infersent, config):
+        self.infersent = infersent
+        self.config = config
+
+    def make_instance(self, text_a, text_b, label, label_map):
+        sent1s = [' '.join(text_a)]
+        if isinstance(text_b, list):
+            sent2s = [' '.join(text_b)]
+        else:
+            sent2s = [text_b]
+        return [sent1s, sent2s, [label]]
+
+    def model_forward(self, model, batch):
+        sent1s, sent2s, label_ids = [list(item) for item in batch]
+        sent1_tensor = self.infersent.encode(sent1s, tokenize=True)
+        sent2_tensor = self.infersent.encode(sent2s, tokenize=True)
+        ...
+        return logits
+</code></pre>
+
+
 ### Model layer evaluations
 ### BERT masked language model evaluations
 
