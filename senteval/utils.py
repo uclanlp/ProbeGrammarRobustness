@@ -1,3 +1,4 @@
+# Borrowed from https://github.com/facebookresearch/SentEval/tree/master/senteval/utils.py
 # Copyright (c) 2017-present, Facebook, Inc.
 # All rights reserved.
 #
