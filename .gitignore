@@ -3,6 +3,7 @@ __pycache__/
 transformers/__pycache__/
 utils/__pycache__/
 senteval/__pycache__/
+probing/__pycache__/
 *.py[cod]
 *$py.class
 
