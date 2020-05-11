@@ -40,7 +40,7 @@ First train or fine-tune models on clean data (<code>${data_dir}</code> indicate
 <pre><code>python run_transformers.py --mode fine-tune --target_model bert --model_name_or_path bert-base-uncased --do_lower_case --data_dir ${data_dir}/MRPC --data_sign MRPC
 </code></pre>
 
-To inject grammatical errors using adversarial attack algorithms, you need to assign importance scores to each token (not necessary for genetic algorithm):
+To inject grammatical errors using adversarial attack algorithms, you need to assign the importance score to each token (not necessary for genetic algorithm):
 <pre><code>python run_transformers.py --mode score --target_model bert --model_name_or_path bert-base-uncased --do_lower_case --data_dir ${data_dir}/MRPC --data_sign MRPC
 </code></pre>
 
