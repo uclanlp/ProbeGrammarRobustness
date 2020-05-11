@@ -80,6 +80,18 @@ Note that our framework is flexible. If you want to test new models, you can sim
 
 
 ### Model layer evaluations
+Navigate to the <code>probing</code> directory:
+<pre><code>cd probing</code></pre>
+
+Run:
+<pre><code>bash run_selfattn_test.sh</code></pre>
+
+The input data contains three columns seperated by <code>/t</code>, where the first column indicates the data split <code>tr</code>, <code>va</code> or <code>te</code>; the second column indicates the binary correctness of this example <code>0</code>, <code>1</code>; the third column is the sentence. For example:
+<pre><code>tr      1       It knows we want to eat a doughnut , not drink it .
+</code></pre>
+
+
+
 ### BERT masked language model evaluations
 We provide some examples for a quick check.
 
@@ -89,7 +101,7 @@ Navigate to the <code>probing</code> directory:
 Run:
 <pre><code>bash run_mlm_dis.sh</code></pre>
 
-You may also collect your own data by navigating to the <code>examples</code> directory and running:
+To collect the complete data, navigate to the <code>examples</code> directory and run:
 <pre><code>python collect_data.py --type *error_type*</code></pre>
 
 where \*error_type\* can be Prep, ArtOrDet, Wci, Trans, Nn, SVA, Vform.
