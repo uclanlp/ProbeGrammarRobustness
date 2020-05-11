@@ -35,7 +35,7 @@ The framework in this repo allows evaluating BERT, RoBERTa, and Infersent on MRP
 The follows can be done with
 <code> bash run_trans_case.sh </code>. But let's elaborate it step by step. The script for Infersent is <code> run_infer_case.sh </code>.
 
-First train or fine-tune models on clean data (<code>${data_dir}</code> indicates where you store clean data):
+First train or fine-tune models on clean data (<code>${data_dir}</code> indicates where you store data):
 
 <pre><code>python run_transformers.py --mode fine-tune --target_model bert --model_name_or_path bert-base-uncased --do_lower_case --data_dir ${data_dir}/MRPC --data_sign MRPC
 </code></pre>
