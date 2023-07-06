@@ -1,7 +1,7 @@
 boto3==1.12.14
 filelock==3.0.12
 tqdm==4.43.0
-scipy==1.4.1
+scipy==1.10.0
 inflection==0.4.0
 pattern3==3.0.0
 pandas==0.24.2
